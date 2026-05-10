@@ -1,0 +1,9 @@
+# Build files
+build/
+adept.egg-info/
+*.pyd
+*.so
+__pycache__/
+
+# VSCode
+.vscode/
