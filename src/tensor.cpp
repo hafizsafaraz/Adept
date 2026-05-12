@@ -33,6 +33,11 @@ Tensor::Tensor(std::vector<std::vector<double>> input) {
 
 // Get element by flat index
 double Tensor::get(int a) const {
+    if(a < 0 || a >= size()) {
+        throw std::out_of_range(
+            "Index " + std::to_string(a) + " out of range for tensor of size " + std::to_string(size())
+        );
+    }
     return data[a];
 }
 
@@ -64,6 +69,9 @@ double Tensor::sum() const {
 
 // Average of all elements
 double Tensor::mean() const {
+    if(data.empty()) {
+        throw std::invalid_argument("Tensor is empty");
+    }
     return Tensor::sum() / size();
 }
 
@@ -97,12 +105,26 @@ double Tensor::min() const {
     return min;
 }
 
+// ── Helper functions ──────────────────────────────
+
+std::string Tensor::shape_to_str(std::vector<int> s) const {
+    std::string str = "(";
+    for (int i = 0; i < s.size(); i++) {
+        str += std::to_string(s[i]);
+        if (i < s.size() - 1) str += ", ";
+    }
+    str += ")";
+    return str;
+}
+
 // ── Operators (tensor) ────────────────────────────
 // Element-wise operations; throws if tensors have different sizes
 
 Tensor Tensor::operator+(const Tensor& other) const {
     if (size() != other.size()) {
-        throw std::invalid_argument("Shape mismatch");
+        throw std::invalid_argument(
+            "Shape mismatch: " + shape_to_str(shape_) + " != " + shape_to_str(other.shape_)
+        );
     }
     std::vector<double> new_tensor;
     for(int i = 0; i < size(); i++) {
@@ -113,7 +135,9 @@ Tensor Tensor::operator+(const Tensor& other) const {
 
 Tensor Tensor::operator-(const Tensor& other) const {
     if (size() != other.size()) {
-        throw std::invalid_argument("Shape mismatch");
+        throw std::invalid_argument(
+            "Shape mismatch: " + shape_to_str(shape_) + " != " + shape_to_str(other.shape_)
+        );
     }
     std::vector<double> new_tensor;
     for(int i = 0; i < size(); i++) {
@@ -124,8 +148,10 @@ Tensor Tensor::operator-(const Tensor& other) const {
 
 Tensor Tensor::operator*(const Tensor& other) const {
     if (size() != other.size()) {
-        throw std::invalid_argument("Shape mismatch");
-    }    
+        throw std::invalid_argument(
+            "Shape mismatch: " + shape_to_str(shape_) + " != " + shape_to_str(other.shape_)
+        );
+    }  
     std::vector<double> new_tensor;
     for(int i = 0; i < size(); i++) {
         new_tensor.push_back(data[i] * other.data[i]);
@@ -135,10 +161,15 @@ Tensor Tensor::operator*(const Tensor& other) const {
 
 Tensor Tensor::operator/(const Tensor& other) const {
     if (size() != other.size()) {
-        throw std::invalid_argument("Shape mismatch");
-    }    
+        throw std::invalid_argument(
+            "Shape mismatch: " + shape_to_str(shape_) + " != " + shape_to_str(other.shape_)
+        );
+    }
     std::vector<double> new_tensor;
     for(int i = 0; i < size(); i++) {
+        if(other.data[i] == 0) {
+            throw std::invalid_argument("Division by zero");
+        }
         new_tensor.push_back(data[i] / other.data[i]);
     }
     return Tensor(new_tensor, shape_);
