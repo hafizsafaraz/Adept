@@ -36,9 +36,11 @@ class Tensor {
         Tensor operator/(double scalar) const;
 
         // ── Tensor Operations ─────────────────────────────
-        Tensor reshape(int new_rows, int new_cols) const;  // reshape to new_rows x new_cols
+        Tensor reshape(std::vector<int> new_shape) const;  // reshape to new_rows x new_cols
         Tensor flatten() const;                            // flatten to 1D
         Tensor transpose() const;                          // transpose (2D only)
+
+        std::string repr() const;
 };
 
 // ── Utility Functions ─────────────────────────────
