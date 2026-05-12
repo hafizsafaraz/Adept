@@ -8,9 +8,9 @@ A fast numerical library for Python, written in C++ with Pybind11.
 ## Features
 
 - **Tensor** — supports 1D and 2D tensors
-- **Math** — sum, mean, max, min
-- **Operators** — +, -, *, / between tensors and scalars
-- **Tensor Operations** — reshape, flatten, transpose
+- **Math** — sum, mean, max, min (raises if tensor is empty)
+- **Operators** — +, -, *, / between tensors (raises if shape mismatch) and scalars
+- **Tensor Operations** — reshape (raises if element count mismatch), flatten, transpose (raises if not 2D)
 - **Utility** — zeros, ones
 
 ## Installation
