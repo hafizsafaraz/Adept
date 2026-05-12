@@ -2,6 +2,9 @@
 
 A fast numerical library for Python, written in C++ with Pybind11.
 
+# Version 
+0.1.1
+
 ## Features
 
 - **Tensor** — supports 1D and 2D tensors
@@ -44,7 +47,7 @@ print(b.ndim())    # 2
 # Tensor operations
 e = b.transpose()
 f = b.flatten()
-g = b.reshape(3, 2)
+g = b.reshape([3, 2])
 
 # Utility
 z = adept.zeros([3, 3])
