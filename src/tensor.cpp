@@ -203,6 +203,9 @@ Tensor Tensor::operator*(double scalar) const {
 }
 
 Tensor Tensor::operator/(double scalar) const {
+    if(scalar == 0) {
+        throw std::invalid_argument("Division by zero");
+    }
     std::vector<double> new_tensor;
     for(int i = 0; i < size(); i++) {
         new_tensor.push_back(data[i] / scalar);
