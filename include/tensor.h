@@ -39,8 +39,6 @@ class Tensor {
         Tensor reshape(std::vector<int> new_shape) const;  // reshape to new_rows x new_cols
         Tensor flatten() const;                            // flatten to 1D
         Tensor transpose() const;                          // transpose (2D only)
-
-        std::string repr() const;
 };
 
 // ── Utility Functions ─────────────────────────────
