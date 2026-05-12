@@ -2,6 +2,7 @@
 #include <vector>
 #include <stdexcept>
 #include <string>
+#include <numeric>
 
 // Constructor: from flat data + shape
 Tensor::Tensor(std::vector<double> data_tensor, std::vector<int> shape_tensor) {
@@ -15,9 +16,13 @@ Tensor::Tensor(std::vector<double> input) {
     shape_.push_back(input.size());
 }
 
-// Constructor: from 2D list, stored flat
+// Constructor: from 2D list, stored flat row-major
+// Throws if rows have different lengths (jagged array)
 Tensor::Tensor(std::vector<std::vector<double>> input) {
     for(int i = 0; i < input.size(); i++) {
+        if(input[i].size() != input[0].size()) {
+            throw std::invalid_argument("All rows must have the same length");
+        }
         for(int j = 0; j < input[0].size(); j++) {
             data.push_back(input[i][j]);
         }
@@ -63,7 +68,11 @@ double Tensor::mean() const {
 }
 
 // Maximum value
+// Throws if tensor is empty
 double Tensor::max() const {
+    if(data.empty()) {
+        throw std::invalid_argument("Tensor is empty");
+    }
     double max = data[0];
     for(int i = 0; i < size(); i++) {
         if(data[i] > max) {
@@ -74,7 +83,11 @@ double Tensor::max() const {
 }
 
 // Minimum value
+// Throws if tensor is empty
 double Tensor::min() const {
+    if(data.empty()) {
+        throw std::invalid_argument("Tensor is empty");
+    }    
     double min = data[0];
     for(int i = 0; i < size(); i++) {
         if(data[i] < min) {
@@ -85,8 +98,12 @@ double Tensor::min() const {
 }
 
 // ── Operators (tensor) ────────────────────────────
+// Element-wise operations; throws if tensors have different sizes
 
 Tensor Tensor::operator+(const Tensor& other) const {
+    if (size() != other.size()) {
+        throw std::invalid_argument("Shape mismatch");
+    }
     std::vector<double> new_tensor;
     for(int i = 0; i < size(); i++) {
         new_tensor.push_back(data[i] + other.data[i]);
@@ -95,6 +112,9 @@ Tensor Tensor::operator+(const Tensor& other) const {
 }
 
 Tensor Tensor::operator-(const Tensor& other) const {
+    if (size() != other.size()) {
+        throw std::invalid_argument("Shape mismatch");
+    }
     std::vector<double> new_tensor;
     for(int i = 0; i < size(); i++) {
         new_tensor.push_back(data[i] - other.data[i]);
@@ -103,6 +123,9 @@ Tensor Tensor::operator-(const Tensor& other) const {
 }
 
 Tensor Tensor::operator*(const Tensor& other) const {
+    if (size() != other.size()) {
+        throw std::invalid_argument("Shape mismatch");
+    }    
     std::vector<double> new_tensor;
     for(int i = 0; i < size(); i++) {
         new_tensor.push_back(data[i] * other.data[i]);
@@ -111,6 +134,9 @@ Tensor Tensor::operator*(const Tensor& other) const {
 }
 
 Tensor Tensor::operator/(const Tensor& other) const {
+    if (size() != other.size()) {
+        throw std::invalid_argument("Shape mismatch");
+    }    
     std::vector<double> new_tensor;
     for(int i = 0; i < size(); i++) {
         new_tensor.push_back(data[i] / other.data[i]);
@@ -119,6 +145,7 @@ Tensor Tensor::operator/(const Tensor& other) const {
 }
 
 // ── Operators (scalar) ────────────────────────────
+// Apply scalar to every element
 
 Tensor Tensor::operator+(double scalar) const {
     std::vector<double> new_tensor;
@@ -154,16 +181,21 @@ Tensor Tensor::operator/(double scalar) const {
 
 // ── Tensor operations ─────────────────────────────
 
-// Reshape to new_rows x new_cols
-Tensor Tensor::reshape(int new_rows, int new_cols) const {
-    if(new_rows * new_cols != size()) {
+// Reshape to an arbitrary new shape
+// Throws if total number of elements does not match
+Tensor Tensor::reshape(std::vector<int> new_shape) const {
+    int total_new_shape = std::accumulate(
+        new_shape.begin(), 
+        new_shape.end(), 1, 
+        std::multiplies<int>());
+
+    if (total_new_shape != size()) {
         throw std::invalid_argument(
-            "Cannot reshape tensor of size " + std::to_string(size()) + 
-            " into shape (" + std::to_string(new_rows) + 
-            ", " + std::to_string(new_cols) + ")"
+            "Cannot reshape tensor of size " + std::to_string(size()) +
+            " into shape of size " + std::to_string(total_new_shape)
         );
     }
-    std::vector<int> new_shape = {new_rows, new_cols};
+
     return Tensor(data, new_shape);
 }
 
@@ -174,6 +206,7 @@ Tensor Tensor::flatten() const {
 }
 
 // Transpose (2D only)
+// Throws if tensor is not 2D
 Tensor Tensor::transpose() const {
     if(ndim() != 2) {
         throw std::invalid_argument("Transpose only supported for 2D tensors");
@@ -190,7 +223,7 @@ Tensor Tensor::transpose() const {
 
 // ── Utility functions ─────────────────────────────
 
-// Create tensor filled with zeros
+// Create tensor filled with zeros given shape
 Tensor zeros(std::vector<int> shape) {
     int total = 1;
     for(int i = 0; i < shape.size(); i++) {
@@ -200,7 +233,7 @@ Tensor zeros(std::vector<int> shape) {
     return Tensor(data, shape);
 }
 
-// Create tensor filled with ones
+// Create tensor filled with ones given shape
 Tensor ones(std::vector<int> shape) {
     int total = 1;
     for(int i = 0; i < shape.size(); i++) {
