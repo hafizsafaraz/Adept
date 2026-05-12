@@ -21,8 +21,8 @@ PYBIND11_MODULE(adept, m) {
         // ── Math ──────────────────────────────────────────
         .def("sum", &Tensor::sum, "Return sum of all elements")
         .def("mean", &Tensor::mean, "Return mean of all elements")
-        .def("max", &Tensor::max, "Return maximum value")
-        .def("min", &Tensor::min, "Return minimum value")
+        .def("max", &Tensor::max, "Return maximum value. Raises if tensor is empty")
+        .def("min", &Tensor::min, "Return minimum value. Raises if tensor is empty")
 
         // ── Operators (tensor) ────────────────────────────
         .def(py::self + py::self)
@@ -37,9 +37,9 @@ PYBIND11_MODULE(adept, m) {
         .def(py::self / double())
 
         // ── Tensor Operations ─────────────────────────────
-        .def("reshape", &Tensor::reshape, "Reshape tensor to (new_rows, new_cols)")
+        .def("reshape", &Tensor::reshape, "Reshape tensor to a new shape. Raises if total elements do not match")
         .def("flatten", &Tensor::flatten, "Flatten tensor to 1D")
-        .def("transpose", &Tensor::transpose, "Transpose 2D tensor");
+        .def("transpose", &Tensor::transpose, "Transpose 2D tensor. Raises if tensor is not 2D");
 
     // ── Utility Functions ─────────────────────────────
     m.def("zeros", &zeros, "Create tensor filled with zeros given shape");
