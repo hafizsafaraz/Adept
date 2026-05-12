@@ -18,6 +18,6 @@ ext_modules = [
 
 setup(
     name="adept",
-    version="0.1.1",
+    version="0.1.2",
     ext_modules=ext_modules,
 )

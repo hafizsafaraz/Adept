@@ -3,7 +3,7 @@
 A fast numerical library for Python, written in C++ with Pybind11.
 
 # Version 
-0.1.1
+0.1.2
 
 ## Features
 
