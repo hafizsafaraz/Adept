@@ -24,6 +24,8 @@ PYBIND11_MODULE(adept, m) {
         .def("mean", &Tensor::mean, "Return mean of all elements")
         .def("max", &Tensor::max, "Return maximum value. Raises if tensor is empty")
         .def("min", &Tensor::min, "Return minimum value. Raises if tensor is empty")
+        .def("argmax", &Tensor::argmax, "Return index of maximum value. Raises if tensor is empty")
+        .def("argmin", &Tensor::argmin, "Return index of minimum value. Raises if tensor is empty")
 
         // ── Operators (tensor) ────────────────────────────
         .def(py::self + py::self)
@@ -81,7 +83,8 @@ PYBIND11_MODULE(adept, m) {
                 s += "])";
                 return s;
             }
-        });
+        })
+        .def("dot", &Tensor::dot, "Dot product for 1D tensors, matrix multiplication for 2D tensors. Raises if shapes are incompatible");
 
     // ── Utility Functions ─────────────────────────────
     m.def("zeros", &zeros, "Create tensor filled with zeros given shape");

@@ -51,6 +51,55 @@ assert t2.shape() == [3, 2]
 assert t2.get(0) == 1.0
 assert t2.get(1) == 4.0
 
+# ── dot ───────────────────────────────────────────
+
+# 1D
+d = adept.Tensor([1, 2, 3])
+d2 = adept.Tensor([4, 5, 6])
+assert d.dot(d2).get(0) == 32.0
+
+# 2D
+m1 = adept.Tensor([[1, 2], [3, 4]])
+m2 = adept.Tensor([[5, 6], [7, 8]])
+dm = m1.dot(m2)
+assert dm.shape() == [2, 2]
+assert dm.get(0) == 19.0  # 1*5 + 2*7
+assert dm.get(1) == 22.0  # 1*6 + 2*8
+assert dm.get(2) == 43.0  # 3*5 + 4*7
+assert dm.get(3) == 50.0  # 3*6 + 4*8
+
+# shape mismatch 1D
+try:
+    adept.Tensor([1, 2]).dot(adept.Tensor([1, 2, 3]))
+    assert False, "Should have raised"
+except Exception:
+    pass
+
+# shape mismatch 2D
+try:
+    adept.Tensor([[1, 2], [3, 4]]).dot(adept.Tensor([[1, 2], [3, 4], [5, 6]]))
+    assert False, "Should have raised"
+except Exception:
+    pass
+
+# ── argmax & argmin ───────────────────────────────
+a2 = adept.Tensor([10, 30, 20])
+assert a2.argmax() == 1
+assert a2.argmin() == 0
+
+# empty tensor
+try:
+    adept.Tensor([]).argmax()
+    assert False, "Should have raised"
+except Exception:
+    pass
+
+try:
+    adept.Tensor([]).argmin()
+    assert False, "Should have raised"
+except Exception:
+    pass
+
 # ── Edge cases ────────────────────────────────────
 
 # get() out of range

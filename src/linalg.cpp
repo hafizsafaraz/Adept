@@ -43,3 +43,47 @@ Tensor Tensor::transpose() const {
     std::vector<int> new_shape = {shape_[1], shape_[0]};
     return Tensor(result, new_shape);
 }
+
+Tensor Tensor::dot(const Tensor& other) const {
+    if(ndim() == 1 && other.ndim() == 1) {
+        if(size() != other.size()) {
+            throw std::invalid_argument(
+                "Shape mismatch: " + shape_to_str(shape_) + " != " + shape_to_str(other.shape_)
+            );
+        } 
+        double result = 0;
+        for(int i = 0; i < size(); i++) {
+            result += data[i] * other.data[i];
+        }
+
+        return Tensor({result}, {1});
+    }
+
+    if(ndim() == 2 && other.ndim() == 2) {
+        if(shape_[1] != other.shape_[0]) {
+            throw std::invalid_argument(
+                "Shape mismatch: " + shape_to_str(shape_) + " != " + shape_to_str(other.shape_)
+            );
+        }
+
+        int rows = shape_[0];
+        int cols = other.shape_[1];
+        int inner = shape_[1];
+
+        std::vector<double> result(rows * cols, 0.0);
+
+        for(int i = 0; i < rows; i++) {
+            for(int j = 0; j < cols; j++) {
+                for(int k = 0; k < inner; k++) {
+                    result[i * cols + j] += data[i * inner + k] * other.data[k * cols + j];
+                }
+            }
+        }
+
+        return Tensor(result, {rows, cols});
+    } 
+
+    
+    throw std::invalid_argument("dot() only supported for 1D and 2D tensors");
+    
+}

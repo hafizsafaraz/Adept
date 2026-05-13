@@ -25,6 +25,8 @@ class Tensor {
         double mean() const;                  // average of all elements. throws if empty
         double max() const;                   // maximum value. throws if empty
         double min() const;                   // minimum value. throws if empty
+        int argmax() const;
+        int argmin() const;
 
         // ── Operators (tensor) ────────────────────────────
         Tensor operator+(const Tensor& other) const;  // element-wise add. throws if shape mismatch
@@ -42,6 +44,7 @@ class Tensor {
         Tensor reshape(std::vector<int> new_shape) const;  // reshape to arbitrary new shape. throws if element count mismatch
         Tensor flatten() const;                            // flatten to 1D
         Tensor transpose() const;                          // transpose (2D only). throws if not 2D
+        Tensor dot(const Tensor& other) const;
 };
 
 // ── Utility Functions ─────────────────────────────
