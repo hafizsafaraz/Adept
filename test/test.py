@@ -96,11 +96,13 @@ except Exception:
     pass
 
 # empty tensor
-try:
-    adept.Tensor([]).max()
-    assert False, "Should have raised"
-except Exception:
-    pass
+# empty tensor
+for method in [lambda t: t.sum(), lambda t: t.mean(), lambda t: t.max(), lambda t: t.min()]:
+    try:
+        method(adept.Tensor([]))
+        assert False, "Should have raised"
+    except Exception:
+        pass
 
 # jagged array
 try:
