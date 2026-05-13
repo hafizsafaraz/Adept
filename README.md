@@ -3,12 +3,13 @@
 A fast numerical library for Python, written in C++ with Pybind11.
 
 ## Version 
-0.1.6
+0.2.0
 
 ## Features
 
 - **Tensor** — supports 1D and 2D tensors
-- **Math** — sum, mean, max, min (raises if tensor is empty)
+- **Math** — sum, mean, max, min, argmax, argmin (raises if tensor is empty)
+- **Linear Algebra** — dot product (1D), matrix multiplication (2D)
 - **Operators** — +, -, *, / between tensors (raises if shape mismatch) and scalars
 - **Tensor Operations** — reshape (raises if element count mismatch), flatten, transpose (raises if not 2D)
 - **Utility** — zeros, ones
@@ -36,9 +37,23 @@ print(a.mean())    # 3.0
 print(a.max())     # 5.0
 print(a.min())     # 1.0
 
+# Argmax & argmin
+c = adept.Tensor([10, 30, 20])
+print(c.argmax())  # 1
+print(c.argmin())  # 0
+
+# Dot product & matrix multiplication
+d1 = adept.Tensor([1, 2, 3])
+d2 = adept.Tensor([4, 5, 6])
+print(d1.dot(d2).get(0))  # 32.0
+
+m1 = adept.Tensor([[1, 2], [3, 4]])
+m2 = adept.Tensor([[5, 6], [7, 8]])
+print(m1.dot(m2))  # Tensor([[19.0, 22.0], [43.0, 50.0]])
+
 # Operators
-c = a + a          # [2, 4, 6, 8, 10]
-d = a * 2.0        # [2, 4, 6, 8, 10]
+print(a + a)   # Tensor([2.0, 4.0, 6.0, 8.0, 10.0])
+print(a * 2.0) # Tensor([2.0, 4.0, 6.0, 8.0, 10.0])
 
 # Shape info
 print(b.shape())   # [2, 3]

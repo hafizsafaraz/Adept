@@ -52,3 +52,31 @@ double Tensor::min() const {
     }
     return min;
 }
+
+int Tensor::argmax() const {
+    if(data.empty()) {
+        throw std::invalid_argument("Tensor is empty");
+    }
+
+    int max_index = 0;
+    for(int i = 0; i < size(); i++) {
+        if(data[i] > data[max_index]) {
+            max_index = i;
+        }
+    }
+    return max_index;
+}
+
+int Tensor::argmin() const {
+    if(data.empty()) {
+        throw std::invalid_argument("Tensor is empty");
+    }
+
+    int min_index = 0;
+    for(int i = 0; i < size(); i++) {
+        if(data[i] < data[min_index]) {
+            min_index = i;
+        }
+    }
+    return min_index;
+}
