@@ -42,18 +42,45 @@ PYBIND11_MODULE(adept, m) {
         .def("flatten", &Tensor::flatten, "Flatten tensor to 1D")
         .def("transpose", &Tensor::transpose, "Transpose 2D tensor. Raises if tensor is not 2D")
         .def("__repr__", [](const Tensor& t) {
-            std::string s = "Tensor([";
-            for (int i = 0; i < t.size(); i++) {
-                s += std::to_string(t.get(i));
-                if (i < t.size() - 1) s += ", ";
+            // Helper: format satu angka, hapus trailing zeros
+            auto fmt = [](double v) -> std::string {
+                std::string s = std::to_string(v);
+                // Hapus trailing zeros, tapi sisakan minimal satu desimal (1.0 bukan 1.)
+                size_t dot = s.find('.');
+                if (dot != std::string::npos) {
+                    size_t last = s.find_last_not_of('0');
+                    if (last == dot) last++;  // jaga minimal "1.0"
+                    s = s.substr(0, last + 1);
+                }
+                return s;
+            };
+
+            std::vector<int> sh = t.shape();
+
+            if (t.ndim() == 1) {
+                std::string s = "Tensor([";
+                for (int i = 0; i < t.size(); i++) {
+                    s += fmt(t.get(i));
+                    if (i < t.size() - 1) s += ", ";
+                }
+                s += "])";
+                return s;
+            } else {
+                // 2D: print nested [[row0], [row1], ...]
+                int rows = sh[0], cols = sh[1];
+                std::string s = "Tensor([";
+                for (int i = 0; i < rows; i++) {
+                    s += "[";
+                    for (int j = 0; j < cols; j++) {
+                        s += fmt(t.get(i * cols + j));
+                        if (j < cols - 1) s += ", ";
+                    }
+                    s += "]";
+                    if (i < rows - 1) s += ", ";
+                }
+                s += "])";
+                return s;
             }
-            s += "], shape=[";
-            for (int i = 0; i < t.shape().size(); i++) {
-                s += std::to_string(t.shape()[i]);
-                if (i < t.shape().size() - 1) s += ", ";
-            }
-            s += "])";
-            return s;
         });
 
     // ── Utility Functions ─────────────────────────────
