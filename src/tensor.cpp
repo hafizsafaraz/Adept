@@ -63,6 +63,9 @@ int Tensor::ndim() const {
 
 // Sum of all elements
 double Tensor::sum() const {
+    if(data.empty()) {
+        throw std::invalid_argument("Tensor is empty");
+    }
     double sum = 0;
     for(int i = 0; i < size(); i++) {
         sum += data[i];
