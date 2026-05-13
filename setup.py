@@ -1,11 +1,7 @@
 from setuptools import setup
 from pybind11.setup_helpers import Pybind11Extension
-import sys
 
-if sys.platform == "win32":
-    compile_args = ["/O2", "/arch:AVX2"]
-else:
-    compile_args = ["-O2", "-mavx2"]   
+compile_args = ["-02"]
 
 ext_modules = [
     Pybind11Extension(
