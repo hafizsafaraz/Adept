@@ -121,7 +121,7 @@ std::string Tensor::shape_to_str(std::vector<int> s) const {
 // Element-wise operations; throws if tensors have different sizes
 
 Tensor Tensor::operator+(const Tensor& other) const {
-    if (size() != other.size()) {
+    if (shape_ != other.shape_) {
         throw std::invalid_argument(
             "Shape mismatch: " + shape_to_str(shape_) + " != " + shape_to_str(other.shape_)
         );
@@ -134,7 +134,7 @@ Tensor Tensor::operator+(const Tensor& other) const {
 }
 
 Tensor Tensor::operator-(const Tensor& other) const {
-    if (size() != other.size()) {
+    if (shape_ != other.shape_) {
         throw std::invalid_argument(
             "Shape mismatch: " + shape_to_str(shape_) + " != " + shape_to_str(other.shape_)
         );
@@ -147,7 +147,7 @@ Tensor Tensor::operator-(const Tensor& other) const {
 }
 
 Tensor Tensor::operator*(const Tensor& other) const {
-    if (size() != other.size()) {
+    if (shape_ != other.shape_) {
         throw std::invalid_argument(
             "Shape mismatch: " + shape_to_str(shape_) + " != " + shape_to_str(other.shape_)
         );
@@ -160,7 +160,7 @@ Tensor Tensor::operator*(const Tensor& other) const {
 }
 
 Tensor Tensor::operator/(const Tensor& other) const {
-    if (size() != other.size()) {
+    if (shape_ != other.shape_) {
         throw std::invalid_argument(
             "Shape mismatch: " + shape_to_str(shape_) + " != " + shape_to_str(other.shape_)
         );
