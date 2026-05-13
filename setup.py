@@ -13,11 +13,10 @@ ext_modules = [
         ["src/tensor.cpp", "src/bindings.cpp"],
         include_dirs=["include"], 
         extra_compile_args=compile_args,
+        cxx_std=17,
     ),
 ]
 
 setup(
-    name="adept",
-    version="0.1.2",
     ext_modules=ext_modules,
 )
