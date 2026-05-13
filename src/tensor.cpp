@@ -19,6 +19,9 @@ Tensor::Tensor(std::vector<double> input) {
 // Constructor: from 2D list, stored flat row-major
 // Throws if rows have different lengths (jagged array)
 Tensor::Tensor(std::vector<std::vector<double>> input) {
+    if(input.empty()) {
+        throw std::invalid_argument("Input tensor cannot be empty");
+    }
     for(int i = 0; i < input.size(); i++) {
         if(input[i].size() != input[0].size()) {
             throw std::invalid_argument("All rows must have the same length");
