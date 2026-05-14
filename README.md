@@ -1,3 +1,8 @@
+<p align="center">
+  <img src="branding/logo/logo.svg" width="300"/>
+</p>
+
+
 # Adept
 
 A fast numerical library for Python, written in C++ with Pybind11.
