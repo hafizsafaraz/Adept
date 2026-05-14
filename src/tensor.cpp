@@ -171,6 +171,14 @@ Tensor Tensor::operator/(double scalar) const {
 
 // Create tensor filled with zeros given shape
 Tensor zeros(std::vector<int> shape) {
+    if (shape.empty()) {
+        throw std::invalid_argument("Shape cannot be empty");
+    }
+    for (int i = 0; i < shape.size(); i++) {
+        if (shape[i] <= 0) {
+            throw std::invalid_argument("Shape dimensions must be positive");
+        }
+    }
     int total = 1;
     for(int i = 0; i < shape.size(); i++) {
         total *= shape[i];
@@ -181,6 +189,14 @@ Tensor zeros(std::vector<int> shape) {
 
 // Create tensor filled with ones given shape
 Tensor ones(std::vector<int> shape) {
+    if (shape.empty()) {
+        throw std::invalid_argument("Shape cannot be empty");
+    }
+    for (int i = 0; i < shape.size(); i++) {
+        if (shape[i] <= 0) {
+            throw std::invalid_argument("Shape dimensions must be positive");
+        }
+    }    
     int total = 1;
     for(int i = 0; i < shape.size(); i++) {
         total *= shape[i];
