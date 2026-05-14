@@ -20,8 +20,8 @@ PYBIND11_MODULE(adept, m) {
         .def("ndim", &Tensor::ndim, "Return number of dimensions")
 
         // ── Math ──────────────────────────────────────────
-        .def("sum", &Tensor::sum, "Return sum of all elements")
-        .def("mean", &Tensor::mean, "Return mean of all elements")
+        .def("sum", &Tensor::sum, "Return sum of all elements. Returns 0.0 if empty")
+        .def("mean", &Tensor::mean, "Return mean of all elements. Raises if tensor is empty")
         .def("max", &Tensor::max, "Return maximum value. Raises if tensor is empty")
         .def("min", &Tensor::min, "Return minimum value. Raises if tensor is empty")
         .def("argmax", &Tensor::argmax, "Return index of maximum value. Raises if tensor is empty")
@@ -39,8 +39,14 @@ PYBIND11_MODULE(adept, m) {
         .def(py::self * double())
         .def(py::self / double())
 
+        // ── Operators (scalar reverse) ────────────────────
+        .def(double() + py::self)
+        .def(double() - py::self)
+        .def(double() * py::self)
+        .def(double() / py::self)
+
         // ── Tensor Operations ─────────────────────────────
-        .def("reshape", &Tensor::reshape, "Reshape tensor to a new shape. Raises if total elements do not match")
+        .def("reshape", &Tensor::reshape, "Reshape tensor to a new shape. Raises if ndim > 2 or element count mismatch")
         .def("flatten", &Tensor::flatten, "Flatten tensor to 1D")
         .def("transpose", &Tensor::transpose, "Transpose 2D tensor. Raises if tensor is not 2D")
         .def("__repr__", [](const Tensor& t) {
@@ -84,7 +90,8 @@ PYBIND11_MODULE(adept, m) {
                 return s;
             }
         })
-        .def("dot", &Tensor::dot, "Dot product for 1D tensors, matrix multiplication for 2D tensors. Raises if shapes are incompatible");
+        .def("dot", &Tensor::dot, "Dot product for 1D tensors. Raises if not 1D or size mismatch")
+        .def("matmul", &Tensor::matmul, "Matrix multiplication for 2D tensors. Raises if not 2D or inner dim mismatch");
 
     // ── Utility Functions ─────────────────────────────
     m.def("zeros", &zeros, "Create tensor filled with zeros given shape");
