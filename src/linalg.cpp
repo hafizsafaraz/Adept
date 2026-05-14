@@ -5,8 +5,12 @@
 // ── Tensor operations ─────────────────────────────
 
 // Reshape to an arbitrary new shape
+// Throws if ndim > 2 (only 1D and 2D supported)
 // Throws if total number of elements does not match
 Tensor Tensor::reshape(std::vector<int> new_shape) const {
+    if (new_shape.size() > 2) {
+        throw std::invalid_argument("Adept only supports 1D and 2D tensors");
+    }
     int total_new_shape = std::accumulate(
         new_shape.begin(), 
         new_shape.end(), 1, 
@@ -44,7 +48,9 @@ Tensor Tensor::transpose() const {
     return Tensor(result, new_shape);
 }
 
-Tensor Tensor::dot(const Tensor& other) const {
+// Dot product (1D only)
+// Throws if either tensor is not 1D, or if sizes don't match
+double Tensor::dot(const Tensor& other) const {
     if(ndim() == 1 && other.ndim() == 1) {
         if(size() != other.size()) {
             throw std::invalid_argument(
@@ -56,9 +62,15 @@ Tensor Tensor::dot(const Tensor& other) const {
             result += data[i] * other.data[i];
         }
 
-        return Tensor({result}, {1});
+        return result;
     }
 
+    throw std::invalid_argument("dot() only supported for 1D tensors");
+}
+
+// Matrix multiplication (2D only)
+// Throws if either tensor is not 2D, or if inner dimensions don't match
+Tensor Tensor::matmul(const Tensor& other) const {
     if(ndim() == 2 && other.ndim() == 2) {
         if(shape_[1] != other.shape_[0]) {
             throw std::invalid_argument(
@@ -81,9 +93,7 @@ Tensor Tensor::dot(const Tensor& other) const {
         }
 
         return Tensor(result, {rows, cols});
-    } 
+    }     
 
-    
-    throw std::invalid_argument("dot() only supported for 1D and 2D tensors");
-    
+    throw std::invalid_argument("matmul() only supported for 2D tensors");
 }
