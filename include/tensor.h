@@ -21,12 +21,12 @@ class Tensor {
         int size() const;                     // total number of elements
 
         // ── Math ──────────────────────────────────────────
-        double sum() const;                   // sum of all elements
+        double sum() const;                   // sum of all elements. returns 0.0 if empty
         double mean() const;                  // average of all elements. throws if empty
         double max() const;                   // maximum value. throws if empty
         double min() const;                   // minimum value. throws if empty
-        int argmax() const;
-        int argmin() const;
+        int argmax() const;                   // index of maximum value. throws if empty
+        int argmin() const;                   // index of minimum value. throws if empty
 
         // ── Operators (tensor) ────────────────────────────
         Tensor operator+(const Tensor& other) const;  // element-wise add. throws if shape mismatch
@@ -38,15 +38,16 @@ class Tensor {
         Tensor operator+(double scalar) const;  // add scalar to every element
         Tensor operator-(double scalar) const;  // subtract scalar from every element
         Tensor operator*(double scalar) const;  // multiply every element by scalar
-        Tensor operator/(double scalar) const;  // divide every element by scalar
+        Tensor operator/(double scalar) const;  // divide every element by scalar. throws if scalar is zero
 
         // ── Tensor Operations ─────────────────────────────
-        Tensor reshape(std::vector<int> new_shape) const;  // reshape to arbitrary new shape. throws if element count mismatch
+        Tensor reshape(std::vector<int> new_shape) const;  // reshape to new shape. throws if ndim > 2 or element count mismatch
         Tensor flatten() const;                            // flatten to 1D
         Tensor transpose() const;                          // transpose (2D only). throws if not 2D
-        Tensor dot(const Tensor& other) const;
+        double dot(const Tensor& other) const;             // dot product (1D only). throws if not 1D or size mismatch
+        Tensor matmul(const Tensor& other) const;          // matrix multiplication (2D only). throws if not 2D or inner dim mismatch
 };
 
 // ── Utility Functions ─────────────────────────────
-Tensor zeros(std::vector<int> shape);   // create tensor filled with zeros
-Tensor ones(std::vector<int> shape);    // create tensor filled with ones
+Tensor zeros(std::vector<int> shape);   // create tensor filled with zeros. throws if shape is empty or has non-positive dimensions
+Tensor ones(std::vector<int> shape);    // create tensor filled with ones. throws if shape is empty or has non-positive dimensions
