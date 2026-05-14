@@ -40,10 +40,18 @@ PYBIND11_MODULE(adept, m) {
         .def(py::self / double())
 
         // ── Operators (scalar reverse) ────────────────────
-        .def(double() + py::self)
-        .def(double() - py::self)
-        .def(double() * py::self)
-        .def(double() / py::self)
+        .def("__radd__", [](const Tensor& t, double s) { return t + s; })
+        .def("__rsub__", [](const Tensor& t, double s) { return t * -1.0 + s; })
+        .def("__rmul__", [](const Tensor& t, double s) { return t * s; })
+        .def("__rtruediv__", [](const Tensor& t, double s) {
+            // s / t, bukan t / s
+            std::vector<double> result;
+            for (int i = 0; i < t.size(); i++) {
+                if (t.get(i) == 0) throw std::invalid_argument("Division by zero");
+                result.push_back(s / t.get(i));
+            }
+            return Tensor(result, t.shape());
+        })
 
         // ── Tensor Operations ─────────────────────────────
         .def("reshape", &Tensor::reshape, "Reshape tensor to a new shape. Raises if ndim > 2 or element count mismatch")
