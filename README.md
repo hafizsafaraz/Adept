@@ -1,19 +1,14 @@
-<p align="center">
-  <img src="branding/logo/logo.svg" width="300"/>
-</p>
-
-
-# Adept
+# [Library Name]
 
 A fast numerical library for Python, written in C++ with Pybind11.
 
 ## Version 
-0.3.0
+0.3.1
 
 ## Features
 
 - **Tensor** — supports 1D and 2D tensors
-- **Math** — sum, mean, max, min, argmax, argmin, abs, clip, pow, sqrt, stddev, var (raises if tensor is empty, except sum which returns 0.0)
+- **Math** — sum, mean, max, min, argmax, argmin, abs, clip, pow, sqrt, stddev, var, normalize, log(raises if tensor is empty, except sum which returns 0.0)
 - **Linear Algebra** — dot product for 1D tensors, matmul for 2D tensors
 - **Operators** — +, -, *, / between tensors (raises if shape mismatch) and scalars (both `tensor * 2.0` and `2.0 * tensor`)
 - **Tensor Operations** — reshape (raises if ndim > 2 or element count mismatch), flatten, transpose (raises if not 2D)
@@ -67,6 +62,11 @@ print(s.sqrt())  # Tensor([1.0, 2.0, 3.0, 4.0, 5.0])
 sv = adept.Tensor([2, 4, 4, 4, 5, 5, 7, 9])
 print(sv.stddev())  # 2.0
 print(sv.var())     # 4.0
+
+# Normalize & Log
+nl = adept.Tensor([1, 2, 3, 4, 5])
+print(nl.normalize())  # Tensor([0.0, 0.25, 0.5, 0.75, 1.0])
+print(nl.log())        # Tensor([0.0, 0.693, 1.099, 1.386, 1.609])
 
 # Dot product (1D) — returns Tensor
 d1 = adept.Tensor([1, 2, 3])
