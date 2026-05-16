@@ -33,6 +33,8 @@ class Tensor {
         Tensor sqrt() const;                               // square root of every element. throws if empty or any element is negative
         double stddev() const;                             // standard deviation of all elements. throws if empty
         double var() const;                                // variance of all elements. throws if empty
+        Tensor normalize() const;  // normalize every element to [0, 1] range. throws if empty or all elements are equal
+        Tensor log() const;        // natural log of every element. throws if empty or any element is <= 0
 
         // ── Operators (tensor) ────────────────────────────
         Tensor operator+(const Tensor& other) const;  // element-wise add. throws if shape mismatch
