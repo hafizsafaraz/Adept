@@ -29,6 +29,7 @@ class Tensor {
         int argmin() const;                   // index of minimum value. throws if empty
         Tensor abs() 
 const;                   // absolute value of every element
+        Tensor clip(double min, double max) const;                   // clip every element to [min, max] range
 
         // ── Operators (tensor) ────────────────────────────
         Tensor operator+(const Tensor& other) const;  // element-wise add. throws if shape mismatch
