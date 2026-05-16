@@ -26,6 +26,7 @@ PYBIND11_MODULE(adept, m) {
         .def("min", &Tensor::min, "Return minimum value. Raises if tensor is empty")
         .def("argmax", &Tensor::argmax, "Return index of maximum value. Raises if tensor is empty")
         .def("argmin", &Tensor::argmin, "Return index of minimum value. Raises if tensor is empty")
+        .def("abs", &Tensor::abs, "Return absolute value of every element. Raises if tensor is empty")
 
         // ── Operators (tensor) ────────────────────────────
         .def(py::self + py::self)
