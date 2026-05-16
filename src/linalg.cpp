@@ -50,7 +50,7 @@ Tensor Tensor::transpose() const {
 
 // Dot product (1D only)
 // Throws if either tensor is not 1D, or if sizes don't match
-double Tensor::dot(const Tensor& other) const {
+Tensor Tensor::dot(const Tensor& other) const {
     if(ndim() == 1 && other.ndim() == 1) {
         if(size() != other.size()) {
             throw std::invalid_argument(
@@ -62,10 +62,13 @@ double Tensor::dot(const Tensor& other) const {
             result += data[i] * other.data[i];
         }
 
-        return result;
+        return Tensor({result}, {1});
+    }
+    if (ndim() == 2 && other.ndim() == 2) {
+        return matmul(other);
     }
 
-    throw std::invalid_argument("dot() only supported for 1D tensors");
+    throw std::invalid_argument("dot() only supported for 1D and 2D tensors");
 }
 
 // Matrix multiplication (2D only)
