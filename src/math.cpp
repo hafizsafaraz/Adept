@@ -132,3 +132,43 @@ Tensor Tensor::pow(int n) const {
     return Tensor(new_tensor, shape_);
 
 }
+
+Tensor Tensor::sqrt() const {
+    if(data.empty()) {
+        throw std::invalid_argument("Tensor is empty");
+    }
+
+    std::vector<double> new_tensor;
+    new_tensor.reserve(size());
+    for(int i = 0; i < size(); i++) {
+        if(data[i] < 0) {
+            throw std::invalid_argument("Cannot take square root of a negative number");
+        }
+        new_tensor.push_back(std::sqrt(data[i]));
+    }
+    return Tensor(new_tensor, shape_);
+}
+
+double Tensor::stddev() const {
+    if(data.empty()) {
+        throw std::invalid_argument("Tensor is empty");
+    }
+
+    double mean_val = mean();
+    double variance = 0;
+    for(int i = 0; i < size(); i++) {
+        variance += std::pow((data[i] - mean_val), 2);
+    }
+
+    variance = variance / size();
+
+    return std::sqrt(variance);
+}
+
+double Tensor::var() const {
+    if(data.empty()) {
+        throw std::invalid_argument("Tensor is empty");
+    }
+
+    return std::pow(stddev(), 2);
+}
