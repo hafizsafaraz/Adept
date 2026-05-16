@@ -44,7 +44,7 @@ class Tensor {
         Tensor reshape(std::vector<int> new_shape) const;  // reshape to new shape. throws if ndim > 2 or element count mismatch
         Tensor flatten() const;                            // flatten to 1D
         Tensor transpose() const;                          // transpose (2D only). throws if not 2D
-        double dot(const Tensor& other) const;             // dot product (1D only). throws if not 1D or size mismatch
+        Tensor dot(const Tensor& other) const;             // dot product (1D only). throws if not 1D or size mismatch
         Tensor matmul(const Tensor& other) const;          // matrix multiplication (2D only). throws if not 2D or inner dim mismatch
 };
 
