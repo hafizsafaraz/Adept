@@ -92,3 +92,26 @@ Tensor Tensor::abs() const {
     } 
     return Tensor(new_tensor, shape_);
 }
+
+Tensor Tensor::clip(double min, double max) const {
+    if(data.empty()) {
+        throw std::invalid_argument("Tensor is empty");
+    }
+
+    if(min > max) {
+        throw std::invalid_argument("min cannot be greater than max");
+    }
+
+    std::vector<double> new_tensor;
+    new_tensor.reserve(size());
+    for(int i = 0; i < size(); i++) {
+        if(data[i] < min) {
+            new_tensor.push_back(min);
+        } else if(data[i] > max) {
+            new_tensor.push_back(max);
+        } else {
+            new_tensor.push_back(data[i]);
+        }
+    }
+    return Tensor(new_tensor, shape_);
+}
