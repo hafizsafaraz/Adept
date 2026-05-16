@@ -115,3 +115,20 @@ Tensor Tensor::clip(double min, double max) const {
     }
     return Tensor(new_tensor, shape_);
 }
+
+Tensor Tensor::pow(int n) const {
+    if(data.empty()) {
+        throw std::invalid_argument("Tensor is empty");
+    }
+
+    std::vector<double> new_tensor;
+    new_tensor.reserve(size());
+    for(int i = 0; i < size(); i++) {
+        if(n < 0 && data[i] == 0) {
+            throw std::invalid_argument("Cannot raise zero to a negative power");
+        }
+        new_tensor.push_back(std::pow(data[i], n));
+    }
+    return Tensor(new_tensor, shape_);
+
+}
