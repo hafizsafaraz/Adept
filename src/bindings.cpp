@@ -32,6 +32,8 @@ PYBIND11_MODULE(adept, m) {
         .def("sqrt", &Tensor::sqrt, "Square root of every element. Raises if tensor is empty or any element is negative")
         .def("stddev", &Tensor::stddev, "Return standard deviation of all elements. Raises if tensor is empty")
         .def("var", &Tensor::var, "Return variance of all elements. Raises if tensor is empty")
+        .def("normalize", &Tensor::normalize, "Normalize every element to [0, 1] range. Raises if tensor is empty or all elements are equal")
+        .def("log", &Tensor::log, "Natural log of every element. Raises if tensor is empty or any element is <= 0")
 
         // ── Operators (tensor) ────────────────────────────
         .def(py::self + py::self)
