@@ -22,6 +22,8 @@ Tensor::Tensor(std::vector<std::vector<double>> input) {
     if(input.empty()) {
         throw std::invalid_argument("Input tensor cannot be empty");
     }
+
+    data.reserve(input.size() * input[0].size());
     for(int i = 0; i < input.size(); i++) {
         if(input[i].size() != input[0].size()) {
             throw std::invalid_argument("All rows must have the same length");
@@ -81,6 +83,7 @@ Tensor Tensor::operator+(const Tensor& other) const {
         );
     }
     std::vector<double> new_tensor;
+    new_tensor.reserve(size());
     for(int i = 0; i < size(); i++) {
         new_tensor.push_back(data[i] + other.data[i]);
     }
@@ -94,6 +97,7 @@ Tensor Tensor::operator-(const Tensor& other) const {
         );
     }
     std::vector<double> new_tensor;
+    new_tensor.reserve(size());
     for(int i = 0; i < size(); i++) {
         new_tensor.push_back(data[i] - other.data[i]);
     }
@@ -107,6 +111,7 @@ Tensor Tensor::operator*(const Tensor& other) const {
         );
     }  
     std::vector<double> new_tensor;
+    new_tensor.reserve(size());
     for(int i = 0; i < size(); i++) {
         new_tensor.push_back(data[i] * other.data[i]);
     }
@@ -120,6 +125,7 @@ Tensor Tensor::operator/(const Tensor& other) const {
         );
     }
     std::vector<double> new_tensor;
+    new_tensor.reserve(size());
     for(int i = 0; i < size(); i++) {
         if(other.data[i] == 0) {
             throw std::invalid_argument("Division by zero");
@@ -134,6 +140,7 @@ Tensor Tensor::operator/(const Tensor& other) const {
 
 Tensor Tensor::operator+(double scalar) const {
     std::vector<double> new_tensor;
+    new_tensor.reserve(size());
     for(int i = 0; i < size(); i++) {
         new_tensor.push_back(data[i] + scalar);
     }
@@ -142,6 +149,7 @@ Tensor Tensor::operator+(double scalar) const {
 
 Tensor Tensor::operator-(double scalar) const {
     std::vector<double> new_tensor;
+    new_tensor.reserve(size());
     for(int i = 0; i < size(); i++) {
         new_tensor.push_back(data[i] - scalar);
     }
@@ -150,6 +158,7 @@ Tensor Tensor::operator-(double scalar) const {
 
 Tensor Tensor::operator*(double scalar) const {
     std::vector<double> new_tensor;
+    new_tensor.reserve(size());
     for(int i = 0; i < size(); i++) {
         new_tensor.push_back(data[i] * scalar);
     }
@@ -161,6 +170,7 @@ Tensor Tensor::operator/(double scalar) const {
         throw std::invalid_argument("Division by zero");
     }
     std::vector<double> new_tensor;
+    new_tensor.reserve(size());
     for(int i = 0; i < size(); i++) {
         new_tensor.push_back(data[i] / scalar);
     }
