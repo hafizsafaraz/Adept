@@ -29,6 +29,9 @@ PYBIND11_MODULE(adept, m) {
         .def("abs", &Tensor::abs, "Return absolute value of every element. Raises if tensor is empty")
         .def("clip", &Tensor::clip, "Clip every element to [min, max] range. Raises if tensor is empty or min > max")
         .def("pow", &Tensor::pow, "Raise every element to the power of n. Raises if tensor is empty or n < 0 and any element is zero")
+        .def("sqrt", &Tensor::sqrt, "Square root of every element. Raises if tensor is empty or any element is negative")
+        .def("stddev", &Tensor::stddev, "Return standard deviation of all elements. Raises if tensor is empty")
+        .def("var", &Tensor::var, "Return variance of all elements. Raises if tensor is empty")
 
         // ── Operators (tensor) ────────────────────────────
         .def(py::self + py::self)
