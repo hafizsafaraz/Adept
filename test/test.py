@@ -63,10 +63,10 @@ m1 = adept.Tensor([[1, 2], [3, 4]])
 m2 = adept.Tensor([[5, 6], [7, 8]])
 dm = m1.dot(m2)
 assert dm.shape() == [2, 2]
-assert dm.get(0) == 19.0  # 1*5 + 2*7
-assert dm.get(1) == 22.0  # 1*6 + 2*8
-assert dm.get(2) == 43.0  # 3*5 + 4*7
-assert dm.get(3) == 50.0  # 3*6 + 4*8
+assert dm.get(0) == 19.0
+assert dm.get(1) == 22.0
+assert dm.get(2) == 43.0
+assert dm.get(3) == 50.0
 
 # shape mismatch 1D
 try:
@@ -96,6 +96,88 @@ except Exception:
 
 try:
     adept.Tensor([]).argmin()
+    assert False, "Should have raised"
+except Exception:
+    pass
+
+# ── abs ───────────────────────────────────────────
+ab = adept.Tensor([-1, 2, -3, 4])
+assert ab.abs().get(0) == 1.0
+assert ab.abs().get(1) == 2.0
+assert ab.abs().get(2) == 3.0
+
+try:
+    adept.Tensor([]).abs()
+    assert False, "Should have raised"
+except Exception:
+    pass
+
+# ── clip ──────────────────────────────────────────
+cl = adept.Tensor([0.5, 1, 3, 10, 3])
+assert cl.clip(0, 5).get(3) == 5.0
+assert cl.clip(0, 5).get(0) == 0.5
+
+try:
+    adept.Tensor([]).clip(0, 5)
+    assert False, "Should have raised"
+except Exception:
+    pass
+
+try:
+    cl.clip(5, 0)
+    assert False, "Should have raised"
+except Exception:
+    pass
+
+# ── pow ───────────────────────────────────────────
+pw = adept.Tensor([1, 2, 3, 4, 5])
+assert pw.pow(2).get(0) == 1.0
+assert pw.pow(2).get(1) == 4.0
+assert pw.pow(2).get(2) == 9.0
+
+try:
+    adept.Tensor([]).pow(2)
+    assert False, "Should have raised"
+except Exception:
+    pass
+
+try:
+    adept.Tensor([0, 1, 2]).pow(-1)
+    assert False, "Should have raised"
+except Exception:
+    pass
+
+# ── sqrt ──────────────────────────────────────────
+sq = adept.Tensor([1, 4, 9, 16, 25])
+assert sq.sqrt().get(0) == 1.0
+assert sq.sqrt().get(1) == 2.0
+assert sq.sqrt().get(2) == 3.0
+
+try:
+    adept.Tensor([]).sqrt()
+    assert False, "Should have raised"
+except Exception:
+    pass
+
+try:
+    adept.Tensor([-1, 2, 3]).sqrt()
+    assert False, "Should have raised"
+except Exception:
+    pass
+
+# ── stddev & var ──────────────────────────────────
+sv = adept.Tensor([2, 4, 4, 4, 5, 5, 7, 9])
+assert sv.stddev() == 2.0
+assert sv.var() == 4.0
+
+try:
+    adept.Tensor([]).stddev()
+    assert False, "Should have raised"
+except Exception:
+    pass
+
+try:
+    adept.Tensor([]).var()
     assert False, "Should have raised"
 except Exception:
     pass
@@ -144,7 +226,6 @@ try:
 except Exception:
     pass
 
-# empty tensor
 # empty tensor
 for method in [lambda t: t.sum(), lambda t: t.mean(), lambda t: t.max(), lambda t: t.min()]:
     try:
