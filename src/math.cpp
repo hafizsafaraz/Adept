@@ -172,3 +172,42 @@ double Tensor::var() const {
 
     return std::pow(stddev(), 2);
 }
+
+Tensor Tensor::normalize() const {
+    if(data.empty()) {
+        throw std::invalid_argument("Tensor is empty");
+    }
+
+    if(max() == min()) {
+        throw std::invalid_argument("Cannot normalize tensor with all equal elements");
+    }
+
+    double max_val = max();
+    double min_val = min();
+    double range = max_val - min_val;
+
+    std::vector<double> new_tensor;
+    new_tensor.reserve(size());
+    for(int i = 0; i < size(); i++) {
+
+        new_tensor.push_back((data[i] - min_val) / range);
+    }
+    return Tensor(new_tensor, shape_);
+}
+
+Tensor Tensor::log() const {
+    if(data.empty()) {
+        throw std::invalid_argument("Tensor is empty");
+    }
+    
+    std::vector<double> new_tensor;
+    new_tensor.reserve(size());
+    for(int i = 0; i < size(); i++) {
+        if(data[i] <= 0) {
+            throw std::invalid_argument("Cannot take logarithm of a non-positive number");
+        }
+        new_tensor.push_back(std::log(data[i]));
+    }
+
+    return Tensor(new_tensor, shape_);
+}
