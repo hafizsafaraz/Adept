@@ -241,4 +241,43 @@ try:
 except Exception:
     pass
 
+# ── normalize ─────────────────────────────────────
+nm = adept.Tensor([1, 2, 3, 4, 5])
+assert nm.normalize().get(0) == 0.0
+assert nm.normalize().get(4) == 1.0
+
+try:
+    adept.Tensor([]).normalize()
+    assert False, "Should have raised"
+except Exception:
+    pass
+
+try:
+    adept.Tensor([5, 5, 5]).normalize()
+    assert False, "Should have raised"
+except Exception:
+    pass
+
+# ── log ───────────────────────────────────────────
+lg = adept.Tensor([1, 2, 3])
+assert lg.log().get(0) == 0.0
+
+try:
+    adept.Tensor([]).log()
+    assert False, "Should have raised"
+except Exception:
+    pass
+
+try:
+    adept.Tensor([0, 1, 2]).log()
+    assert False, "Should have raised"
+except Exception:
+    pass
+
+try:
+    adept.Tensor([-1, 1, 2]).log()
+    assert False, "Should have raised"
+except Exception:
+    pass
+
 print("All tests passed!")
