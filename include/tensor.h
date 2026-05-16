@@ -30,6 +30,9 @@ class Tensor {
         Tensor abs() const;                                // absolute value of every element. throws if empty
         Tensor clip(double min, double max) const;         // clip every element to [min, max] range. throws if empty or min > max
         Tensor pow(int n) const;  // raise every element to the power of n. throws if empty or n < 0 and any element is zero
+        Tensor sqrt() const;                               // square root of every element. throws if empty or any element is negative
+        double stddev() const;                             // standard deviation of all elements. throws if empty
+        double var() const;                                // variance of all elements. throws if empty
 
         // ── Operators (tensor) ────────────────────────────
         Tensor operator+(const Tensor& other) const;  // element-wise add. throws if shape mismatch
