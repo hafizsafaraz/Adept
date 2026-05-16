@@ -1,5 +1,7 @@
 #include "tensor.h"
 #include <stdexcept>
+#include <cmath>
+#include <vector>
 
 // ── Math ──────────────────────────────────────────
 
@@ -76,4 +78,17 @@ int Tensor::argmin() const {
         }
     }
     return min_index;
+}
+
+Tensor Tensor::abs() const {
+    if(data.empty()) {
+        throw std::invalid_argument("Tensor is empty");
+    }
+
+    std::vector<double> new_tensor;
+    new_tensor.reserve(size());
+    for(int i = 0; i < size(); i++) { 
+        new_tensor.push_back(std::abs(data[i]));
+    } 
+    return Tensor(new_tensor, shape_);
 }
