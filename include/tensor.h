@@ -24,6 +24,7 @@ class Tensor {
         double sum() const;                   // sum of all elements. returns 0.0 if empty
         Tensor sum(int axis) const;           // sum along axis (0=cols, 1=rows). throws if not 2D or axis invalid
         double mean() const;                  // average of all elements. throws if empty
+        Tensor mean(int axis) const;
         double max() const;                   // maximum value. throws if empty
         double min() const;                   // minimum value. throws if empty
         int argmax() const;                   // index of maximum value. throws if empty
