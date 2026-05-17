@@ -11,17 +11,45 @@ assert a.ndim() == 1
 
 # ── sum(axis) ─────────────────────────────────────
 sa = adept.Tensor([[1, 2, 3], [4, 5, 6]])
-assert sa.sum(1).get(0) == 6.0   # baris pertama: 1+2+3
-assert sa.sum(1).get(1) == 15.0  # baris kedua: 4+5+6
-assert sa.sum(0).get(0) == 5.0   # kolom pertama: 1+4
-assert sa.sum(0).get(1) == 7.0   # kolom kedua: 2+5
-assert sa.sum(0).get(2) == 9.0   # kolom ketiga: 3+6
+assert sa.sum(1).get(0) == 6.0   # first row: 1+2+3
+assert sa.sum(1).get(1) == 15.0  # second row: 4+5+6
+assert sa.sum(0).get(0) == 5.0   # first col: 1+4
+assert sa.sum(0).get(1) == 7.0   # second col: 2+5
+assert sa.sum(0).get(2) == 9.0   # third col: 3+6
 
 try:
     sa.sum(2)
     assert False, "Should have raised"
 except Exception:
     pass
+
+# ── mean(axis) ────────────────────────────────────
+ma = adept.Tensor([[1, 2, 3], [4, 5, 6]])
+assert ma.mean(1).get(0) == 2.0  # first row: (1+2+3)/3
+assert ma.mean(1).get(1) == 5.0  # second row: (4+5+6)/3
+assert ma.mean(0).get(0) == 2.5  # first col: (1+4)/2
+assert ma.mean(0).get(1) == 3.5  # second col: (2+5)/2
+assert ma.mean(0).get(2) == 4.5  # third col: (3+6)/2
+
+try:
+    adept.Tensor([1, 2, 3]).mean(0)
+    assert False, "Should have raised"
+except Exception:
+    pass
+
+try:
+    ma.mean(2)
+    assert False, "Should have raised"
+except Exception:
+    pass
+
+try:
+    adept.Tensor([]).mean(0)
+    assert False, "Should have raised"
+except Exception:
+    pass
+
+
 
 # ── 2D ────────────────────────────────────────────
 b = adept.Tensor([[1, 2, 3], [4, 5, 6]])
