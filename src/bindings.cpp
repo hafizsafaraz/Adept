@@ -20,7 +20,8 @@ PYBIND11_MODULE(adept, m) {
         .def("ndim", &Tensor::ndim, "Return number of dimensions")
 
         // ── Math ──────────────────────────────────────────
-        .def("sum", &Tensor::sum, "Return sum of all elements. Returns 0.0 if empty")
+        .def("sum", static_cast<double (Tensor::*)() const>(&Tensor::sum), "Return sum of all elements. Returns 0.0 if empty")
+        .def("sum", static_cast<Tensor (Tensor::*)(int) const>(&Tensor::sum), "Sum along axis (0=cols, 1=rows). Raises if not 2D or axis invalid")
         .def("mean", &Tensor::mean, "Return mean of all elements. Raises if tensor is empty")
         .def("max", &Tensor::max, "Return maximum value. Raises if tensor is empty")
         .def("min", &Tensor::min, "Return minimum value. Raises if tensor is empty")
