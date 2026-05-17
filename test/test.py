@@ -9,6 +9,20 @@ assert a.min() == 1.0
 assert a.shape() == [5]
 assert a.ndim() == 1
 
+# ── sum(axis) ─────────────────────────────────────
+sa = adept.Tensor([[1, 2, 3], [4, 5, 6]])
+assert sa.sum(1).get(0) == 6.0   # baris pertama: 1+2+3
+assert sa.sum(1).get(1) == 15.0  # baris kedua: 4+5+6
+assert sa.sum(0).get(0) == 5.0   # kolom pertama: 1+4
+assert sa.sum(0).get(1) == 7.0   # kolom kedua: 2+5
+assert sa.sum(0).get(2) == 9.0   # kolom ketiga: 3+6
+
+try:
+    sa.sum(2)
+    assert False, "Should have raised"
+except Exception:
+    pass
+
 # ── 2D ────────────────────────────────────────────
 b = adept.Tensor([[1, 2, 3], [4, 5, 6]])
 assert b.shape() == [2, 3]
