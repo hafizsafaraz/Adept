@@ -3,12 +3,12 @@
 A fast numerical library for Python, written in C++ with Pybind11.
 
 ## Version 
-0.3.1
+0.3.2
 
 ## Features
 
 - **Tensor** — supports 1D and 2D tensors
-- **Math** — sum, mean, max, min, argmax, argmin, abs, clip, pow, sqrt, stddev, var, normalize, log(raises if tensor is empty, except sum which returns 0.0)
+- **Math** — sum, sum(axis), mean, max, min, argmax, argmin, abs, clip, pow, sqrt, stddev, var, normalize, log (raises if tensor is empty, except sum which returns 0.0)
 - **Linear Algebra** — dot product for 1D tensors, matmul for 2D tensors
 - **Operators** — +, -, *, / between tensors (raises if shape mismatch) and scalars (both `tensor * 2.0` and `2.0 * tensor`)
 - **Tensor Operations** — reshape (raises if ndim > 2 or element count mismatch), flatten, transpose (raises if not 2D)
@@ -36,6 +36,10 @@ print(a.sum())     # 15.0
 print(a.mean())    # 3.0
 print(a.max())     # 5.0
 print(a.min())     # 1.0
+
+# Sum(axis)
+print(b.sum(0))  # Tensor([5.0, 7.0, 9.0])   (col-wise: 1+4, 2+5, 3+6)
+print(b.sum(1))  # Tensor([6.0, 15.0])         (row-wise: 1+2+3, 4+5+6)
 
 # Argmax & argmin
 c = adept.Tensor([10, 30, 20])
