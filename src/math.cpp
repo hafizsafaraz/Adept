@@ -57,6 +57,20 @@ double Tensor::mean() const {
     return Tensor::sum() / size();
 }
 
+Tensor Tensor::mean(int axis) const {
+    if(data.empty())
+        throw std::invalid_argument("Tensor is empty");
+    if(ndim() != 2)
+        throw std::invalid_argument("mean(axis) only supported for 2D tensors");
+    if(axis != 0 && axis != 1)
+        throw std::invalid_argument("Invalid axis. Must be 0 or 1");
+
+    if(axis == 0) return sum(0) / (double)shape_[0];
+    if(axis == 1) return sum(1) / (double)shape_[1];
+
+    throw std::invalid_argument("Invalid axis. Must be 0 or 1");
+}
+
 // Maximum value
 // Throws if tensor is empty
 double Tensor::max() const {
