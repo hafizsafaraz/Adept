@@ -3,7 +3,7 @@
 A fast numerical library for Python, written in C++ with Pybind11.
 
 ## Version 
-0.3.2
+0.3.3
 
 ## Features
 
@@ -40,6 +40,10 @@ print(a.min())     # 1.0
 # Sum(axis)
 print(b.sum(0))  # Tensor([5.0, 7.0, 9.0])   (col-wise: 1+4, 2+5, 3+6)
 print(b.sum(1))  # Tensor([6.0, 15.0])         (row-wise: 1+2+3, 4+5+6)
+
+# Mean(axis)
+print(b.mean(0))  # Tensor([2.5, 3.5, 4.5])   (col-wise: (1+4)/2, (2+5)/2, (3+6)/2)
+print(b.mean(1))  # Tensor([2.0, 5.0])          (row-wise: (1+2+3)/3, (4+5+6)/3)
 
 # Argmax & argmin
 c = adept.Tensor([10, 30, 20])
