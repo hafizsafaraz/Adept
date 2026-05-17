@@ -14,6 +14,41 @@ double Tensor::sum() const {
     return sum;
 }
 
+Tensor Tensor::sum(int axis) const {
+    if(axis != 0 && axis != 1) {
+        throw std::invalid_argument("Invalid axis. Must be 0 or 1");
+    }
+
+    int rows = shape_[0];
+    int cols = shape_[1];
+
+    std::vector<double> new_tensor;
+    if(axis == 1) {
+        new_tensor.reserve(rows);
+        for(int i = 0; i < rows; i++) {
+            double total = 0;
+            for(int j = 0; j < cols; j++) {
+                total += data[i * cols + j];
+            }
+            new_tensor.push_back(total);
+        }
+        return Tensor(new_tensor, {rows});
+    }
+
+    if(axis == 0) {
+        new_tensor.reserve(cols);
+        for(int i = 0; i < cols; i++) {
+            double total = 0;
+            for(int j = 0; j < rows; j++) {
+                total += data[j * cols + i];
+            }
+            new_tensor.push_back(total);
+        }
+        return Tensor(new_tensor, {cols});
+    }
+
+}
+
 // Average of all elements
 double Tensor::mean() const {
     if(data.empty()) {
