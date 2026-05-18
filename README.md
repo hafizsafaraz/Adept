@@ -1,4 +1,4 @@
-# [Library Name]
+# Acumen
 
 A fast numerical library for Python, written in C++ with Pybind11.
 
