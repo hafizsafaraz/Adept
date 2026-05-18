@@ -1,6 +1,6 @@
 # Build files
 build/
-adept.egg-info/
+acumen.egg-info/
 *.pyd
 *.so
 __pycache__/

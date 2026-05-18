@@ -6,8 +6,8 @@
 
 namespace py = pybind11;
 
-PYBIND11_MODULE(adept, m) {
-    m.doc() = "Adept - Fast numerical library for Python";
+PYBIND11_MODULE(acumen, m) {
+    m.doc() = "Acumen - Fast numerical library for Python";
 
     py::class_<Tensor>(m, "Tensor")
         .def(py::init<std::vector<double>>())

@@ -1,3 +1,20 @@
+Metadata-Version: 2.4
+Name: adept
+Version: 0.3.3
+Summary: Fast numerical library for Python
+Author: Hafiz
+License: MIT
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: C++
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Dynamic: license-file
+
 # [Library Name]
 
 A fast numerical library for Python, written in C++ with Pybind11.
@@ -17,19 +34,19 @@ A fast numerical library for Python, written in C++ with Pybind11.
 ## Installation
 
 ```bash
-git clone https://github.com/hafizsafaraz/acumen.git
-cd acumen
+git clone https://github.com/hafizsafaraz/adept.git
+cd adept
 pip install .
 ```
 
 ## Usage
 
 ```python
-import acumen
+import adept
 
 # Create tensors
-a = acumen.Tensor([1, 2, 3, 4, 5])
-b = acumen.Tensor([[1, 2, 3], [4, 5, 6]])
+a = adept.Tensor([1, 2, 3, 4, 5])
+b = adept.Tensor([[1, 2, 3], [4, 5, 6]])
 
 # Math
 print(a.sum())     # 15.0
@@ -46,44 +63,44 @@ print(b.mean(0))  # Tensor([2.5, 3.5, 4.5])   (col-wise: (1+4)/2, (2+5)/2, (3+6)
 print(b.mean(1))  # Tensor([2.0, 5.0])          (row-wise: (1+2+3)/3, (4+5+6)/3)
 
 # Argmax & argmin
-c = acumen.Tensor([10, 30, 20])
+c = adept.Tensor([10, 30, 20])
 print(c.argmax())  # 1
 print(c.argmin())  # 0
 
 # Abs
-d = acumen.Tensor([-1, 2, -3, 4])
+d = adept.Tensor([-1, 2, -3, 4])
 print(d.abs())  # Tensor([1.0, 2.0, 3.0, 4.0])
 
 # Clip
-cl = acumen.Tensor([0.5, 1, 3, 10, 3])
+cl = adept.Tensor([0.5, 1, 3, 10, 3])
 print(cl.clip(0, 5))  # Tensor([0.5, 1.0, 3.0, 5.0, 3.0])
 
 # Pow
-p = acumen.Tensor([1, 2, 3, 4, 5])
+p = adept.Tensor([1, 2, 3, 4, 5])
 print(p.pow(2))  # Tensor([1.0, 4.0, 9.0, 16.0, 25.0])
 
 # Sqrt
-s = acumen.Tensor([1, 4, 9, 16, 25])
+s = adept.Tensor([1, 4, 9, 16, 25])
 print(s.sqrt())  # Tensor([1.0, 2.0, 3.0, 4.0, 5.0])
 
 # Stddev & Var
-sv = acumen.Tensor([2, 4, 4, 4, 5, 5, 7, 9])
+sv = adept.Tensor([2, 4, 4, 4, 5, 5, 7, 9])
 print(sv.stddev())  # 2.0
 print(sv.var())     # 4.0
 
 # Normalize & Log
-nl = acumen.Tensor([1, 2, 3, 4, 5])
+nl = adept.Tensor([1, 2, 3, 4, 5])
 print(nl.normalize())  # Tensor([0.0, 0.25, 0.5, 0.75, 1.0])
 print(nl.log())        # Tensor([0.0, 0.693, 1.099, 1.386, 1.609])
 
 # Dot product (1D) — returns Tensor
-d1 = acumen.Tensor([1, 2, 3])
-d2 = acumen.Tensor([4, 5, 6])
+d1 = adept.Tensor([1, 2, 3])
+d2 = adept.Tensor([4, 5, 6])
 print(d1.dot(d2))  # 32.0
 
 # Matrix multiplication (2D)
-m1 = acumen.Tensor([[1, 2], [3, 4]])
-m2 = acumen.Tensor([[5, 6], [7, 8]])
+m1 = adept.Tensor([[1, 2], [3, 4]])
+m2 = adept.Tensor([[5, 6], [7, 8]])
 print(m1.matmul(m2))  # Tensor([[19.0, 22.0], [43.0, 50.0]])
 
 # Operators
@@ -101,8 +118,8 @@ f = b.flatten()
 g = b.reshape([3, 2])
 
 # Utility
-z = acumen.zeros([3, 3])
-o = acumen.ones([3, 3])
+z = adept.zeros([3, 3])
+o = adept.ones([3, 3])
 ```
 
 ## Requirements

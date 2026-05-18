@@ -9,7 +9,7 @@
 // Throws if total number of elements does not match
 Tensor Tensor::reshape(std::vector<int> new_shape) const {
     if (new_shape.size() > 2) {
-        throw std::invalid_argument("Adept only supports 1D and 2D tensors");
+        throw std::invalid_argument("Acumen only supports 1D and 2D tensors");
     }
     int total_new_shape = std::accumulate(
         new_shape.begin(), 

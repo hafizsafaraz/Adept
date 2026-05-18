@@ -1,0 +1,13 @@
+LICENSE
+README.md
+pyproject.toml
+setup.py
+src/bindings.cpp
+src/linalg.cpp
+src/math.cpp
+src/tensor.cpp
+src/adept.egg-info/PKG-INFO
+src/adept.egg-info/SOURCES.txt
+src/adept.egg-info/dependency_links.txt
+src/adept.egg-info/top_level.txt
+test/test.py

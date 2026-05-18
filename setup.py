@@ -5,7 +5,7 @@ compile_args = ["-O2"]
 
 ext_modules = [
     Pybind11Extension(
-        "adept",
+        "acumen",
         ["src/tensor.cpp", "src/math.cpp", "src/linalg.cpp", "src/bindings.cpp"],
         include_dirs=["include"], 
         extra_compile_args=compile_args,
